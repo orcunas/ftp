@@ -717,6 +717,15 @@ func (c *ServerConn) GetTime(path string) (time.Time, error) {
 	return time.ParseInLocation(timeFormat, msg, time.UTC)
 }
 
+func (c *ServerConn) ModTime(path string) (string, error) {
+	_, msg, err := c.cmd(StatusFile, "MODTIME %s", path)
+	if err != nil {
+		return "", err
+	}
+
+	return msg, nil
+}
+
 // IsGetTimeSupported allows library callers to check in advance that they
 // can use GetTime to get file time.
 func (c *ServerConn) IsGetTimeSupported() bool {
